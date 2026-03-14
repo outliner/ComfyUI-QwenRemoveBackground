@@ -1,0 +1,71 @@
+{
+  "workflow_version": "1.0",
+  "name": "Qwen Image Edit Remove Background",
+  "description": "使用阿里 Qwen-Image-Edit 模型去除背景的工作流",
+  "nodes": [
+    {
+      "id": "1",
+      "type": "LoadImage",
+      "pos": [200, 100],
+      "size": [300, 100],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [10]},
+        {"name": "MASK", "type": "MASK", "links": null}
+      ],
+      "properties": {"Node name for S&R": "LoadImage"},
+      "widgets_values": ["canned_fish.jpg"]
+    },
+    {
+      "id": "2",
+      "type": "QwenImageEditRemoveBackground",
+      "pos": [600, 100],
+      "size": [400, 200],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {"name": "image", "type": "IMAGE", "link": 10}
+      ],
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [11]}
+      ],
+      "properties": {"Node name for S&R": "QwenImageEditRemoveBackground"},
+      "widgets_values": [
+        "qwen-image-edit-max",
+        "去除背景，保留主体，透明背景"
+      ]
+    },
+    {
+      "id": "3",
+      "type": "SaveImage",
+      "pos": [1000, 100],
+      "size": [315, 270],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {"name": "images", "type": "IMAGE", "link": 11}
+      ],
+      "outputs": [],
+      "properties": {"Node name for S&R": "SaveImage"},
+      "widgets_values": ["qwen_output"]
+    }
+  ],
+  "links": [
+    [10, "1", 0, "IMAGE", "IMAGE"],
+    [11, "2", 0, "IMAGE", "IMAGE"]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 1.0,
+      "offset": [0, 0]
+    }
+  },
+  "version": 0.4
+}
